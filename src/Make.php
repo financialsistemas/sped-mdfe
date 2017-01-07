@@ -77,6 +77,7 @@ class Make extends BaseMake
     private $aInfTermCarreg = array(); //array de DOMNode
     private $aInfTermDescarreg = array(); //array de DOMNode
     private $aInfEmbComb = array(); //array de DOMNode
+    private $aInfUnidTransp = array(); //array de DOMNode
     private $aCountDoc = array(); //contador de documentos fiscais
 
     /**
@@ -104,6 +105,14 @@ class Make extends BaseMake
         $this->zTagFerrov();
         $this->zTagAqua();
         $this->dom->appChild($this->infMDFe, $this->infModal, 'Falta tag "infMDFe"');
+
+        foreach ($this->aInfNFe as $nItem => $infUnidTransp) {
+            if (!empty($this->aInfUnidTransp[$nItem])) {
+                $child = $this->aInfUnidTransp[$nItem];
+                $this->dom->appChild($this->aInfNFe[$nItem], $child, "Inclusão do node infUnidTransp");
+            }
+        }
+
         //tag indDoc [44]
         $this->zTagInfDoc();
         //tag tot [68]
@@ -588,6 +597,39 @@ class Make extends BaseMake
         );
         $this->aInfNFe[$nItem][] = $infNFe;
         return $infNFe;
+    }
+
+    /**
+     * infUnidTransp
+     * tag MDFe/infMDFe/infDoc/infMunDescarga/infNFe/infUnidTransp
+     *
+     * @param int $nItem
+     * @param string $tpUnidTransp
+     * @param string $idUnidTransp
+     * @return DOMElement
+     */
+    public function tagInfUnidTransp(
+        $nItem = 0,
+        $tpUnidTransp = '',
+        $idUnidTransp = ''
+    ) {
+        $infUnidTransp = $this->dom->createElement("infUnidTransp");
+        $this->dom->addChild(
+            $infUnidTransp,
+            "tpUnidTransp",
+            $tpUnidTransp,
+            true,
+            "Informações das Unidades de Transporte (Carreta/Reboque/Vagão)"
+        );
+        $this->dom->addChild(
+            $infUnidTransp,
+            "idUnidTransp",
+            $idUnidTransp,
+            true,
+            "Identificação da Unidade de Transporte"
+        );
+        $this->aInfUnidTransp[$nItem][] = $infUnidTransp;
+        return $infUnidTransp;
     }
 
     /**
