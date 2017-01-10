@@ -106,10 +106,14 @@ class Make extends BaseMake
         $this->zTagAqua();
         $this->dom->appChild($this->infMDFe, $this->infModal, 'Falta tag "infMDFe"');
 
-        foreach ($this->aInfNFe as $nItem => $infUnidTransp) {
-            if (!empty($this->aInfUnidTransp[$nItem])) {
-                $child = $this->aInfUnidTransp[$nItem];
-                $this->dom->appChild($this->aInfNFe[$nItem], $child, "Inclusão do node infUnidTransp");
+        foreach ($this->aInfNFe as $infNFes) {
+            foreach ($infNFes as $nItem => $infNFe) {
+                if (!empty($this->aInfUnidTransp[$nItem])) {
+                    $children = $this->aInfUnidTransp[$nItem];
+                    foreach ($children as $child) {
+                        $this->dom->appChild($infNFe, $child, "Inclusão do node infUnidTransp");
+                    }
+                }
             }
         }
 
