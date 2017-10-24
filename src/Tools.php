@@ -13,6 +13,10 @@ use NFePHP\Common\Strings\Strings;
 use NFePHP\MDFe\Auxiliar\Identify;
 use NFePHP\MDFe\Auxiliar\Response;
 
+if (!defined('NFEPHP_ROOT')) {
+    define('NFEPHP_ROOT', dirname(dirname(__FILE__)));
+}
+
 /**
  * Classe principal para a comunicação com a SEFAZ
  *
