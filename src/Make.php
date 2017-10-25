@@ -103,10 +103,6 @@ class Make extends BaseMake
     /**
      * @var DOMElement
      */
-    private $infContratante;
-    /**
-     * @var DOMElement
-     */
     private $seg;
     /**
      * @var DOMElement
@@ -134,6 +130,7 @@ class Make extends BaseMake
     private $aInfTermDescarreg = array(); //array de DOMNode
     private $aInfEmbComb = array(); //array de DOMNode
     private $aCountDoc = array(); //contador de documentos fiscais
+    private $aInfContratante = array(); //array de DOMNode
 
     /**
      *
@@ -1243,16 +1240,16 @@ class Make extends BaseMake
             "CPF",
             $cpf,
             false,
-            "CPF do Contratante"
+            "Número do CPF do contratante do serviço"
         );
         $this->dom->addChild(
             $infContratante,
             "CNPJ",
             $cnpj,
             false,
-            "CNPJ do Contratante"
+            "Número do CNPJ do contratante do serviço"
         );
-        $this->infContratante = $infContratante;
+        $this->aInfContratante[] = $infContratante;
         return $infContratante;
     }
 
@@ -1671,7 +1668,10 @@ class Make extends BaseMake
                 $this->rodo = $this->dom->createElement("rodo");
             }
             if (! empty($this->infANTT)) {
-                $this->dom->appChild($this->infANTT, $this->infContratante, '');
+                foreach ($this->aInfContratante as $cada_infContratante) {
+                    $this->dom->appChild($this->infANTT, $cada_infContratante, 'Falta tag "rodo"');
+                }
+
                 $this->dom->appChild($this->rodo, $this->infANTT, '');
             }
             $this->dom->appChild($this->rodo, $this->veicTracao, 'Falta tag "rodo"');
