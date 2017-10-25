@@ -1425,9 +1425,35 @@ class Make extends BaseMake
         $tara = '',
         $capKG = '',
         $capM3 = '',
-        $propRNTRC = ''
+        $propRNTRC = '',
+        $propCPF = '',
+        $propCNPJ = '',
+        $propXNome = '',
+        $propIE = '',
+        $propUF = '',
+        $propTpProp = '',
+        $tpCar = '',
+        $UF = ''
     ) {
-        $reboque = $this->zTagVeiculo('reboque', $cInt, $placa, $tara, $capKG, $capM3, $propRNTRC);
+        $reboque = $this->zTagVeiculo(
+            'veicReboque',
+            $cInt,
+            $placa,
+            $tara,
+            [],
+            $capKG,
+            $capM3,
+            null,
+            $tpCar,
+            $UF,
+            $propRNTRC,
+            $propCPF,
+            $propCNPJ,
+            $propXNome,
+            $propIE,
+            $propUF,
+            $propTpProp
+        );
         $this->aReboque[] = $reboque;
         return $reboque;
     }
@@ -1518,10 +1544,6 @@ class Make extends BaseMake
             true,
             "Tara em KG"
         );
-        $this->dom->addArrayChild(
-            $node,
-            $condutores
-        );
         $this->dom->addChild(
             $node,
             "capKG",
@@ -1536,15 +1558,17 @@ class Make extends BaseMake
             false,
             "Capacidade em M3"
         );
-        $this->dom->addArrayChild(
-            $node,
-            $this->aCondutor
-        );
+        if (!empty($condutores)) {
+            $this->dom->addArrayChild(
+                $node,
+                $condutores
+            );
+        }
         $this->dom->addChild(
             $node,
             "tpRod",
             $tpRod,
-            true,
+            false,
             "Tipo de rodado"
         );
         $this->dom->addChild(
