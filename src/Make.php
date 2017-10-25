@@ -1669,7 +1669,7 @@ class Make extends BaseMake
             }
             if (! empty($this->infANTT)) {
                 foreach ($this->aInfContratante as $cada_infContratante) {
-                    $this->dom->appChild($infANTT, $cada_infContratante, 'Falta tag "rodo"');
+                    $this->dom->appChild($this->infANTT, $cada_infContratante, 'Falta tag "rodo"');
                 }
 
                 $this->dom->appChild($this->rodo, $this->infANTT, '');
