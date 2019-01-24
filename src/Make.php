@@ -1237,7 +1237,7 @@ class Make extends BaseMake
         $this->infANTT = $infANTT;
         return $infANTT;
     }
-    
+
     /**
      * tagInfContratante
      * tag MDFe/infMDFe/infModal/rodo/infANTT/infContratante
@@ -1272,7 +1272,7 @@ class Make extends BaseMake
         }
         return $this->infContratante[$posicao];
     }
-    
+
     /**
      * tagSeg
      * tag MDFe/infMDFe/seg
@@ -1309,7 +1309,7 @@ class Make extends BaseMake
         $this->aSeg[] = $seg;
         return $seg;
     }
-    
+
     /**
      * tagInfResp
      * tag MDFe/infMDFe/seg/infResp
@@ -1349,7 +1349,7 @@ class Make extends BaseMake
         $this->infResp = $infResp;
         return $infResp;
     }
-    
+
     /**
      * tagInfSeg
      * tag MDFe/infMDFe/seg/infSeg
@@ -1422,6 +1422,7 @@ class Make extends BaseMake
             $this->aProprietario
         );
         $this->veicTracao = $veicTracao;
+        $this->aProprietario = [];
         return $veicTracao;
     }
 
@@ -1540,7 +1541,6 @@ class Make extends BaseMake
      * @param  type $tara
      * @param  type $capKG
      * @param  type $capM3
-     * @param  type $propRNTRC
      * @return DOMElement
      */
     public function tagVeicReboque(
@@ -1549,15 +1549,9 @@ class Make extends BaseMake
         $tara = '',
         $capKG = '',
         $capM3 = '',
-        $propRNTRC = '',
-        $propCPF = '',
-        $propCNPJ = '',
-        $propXNome = '',
-        $propIE = '',
-        $propUF = '',
-        $propTpProp = '',
         $tpCar = '',
-        $UF = ''
+        $UF = '',
+        $renavam = ''
     ) {
         $reboque = $this->zTagVeiculo(
             'veicReboque',
@@ -1570,15 +1564,12 @@ class Make extends BaseMake
             null,
             $tpCar,
             $UF,
-            $propRNTRC,
-            $propCPF,
-            $propCNPJ,
-            $propXNome,
-            $propIE,
-            $propUF,
-            $propTpProp
+            $renavam,
+            $this->aProprietario
         );
         $this->aReboque[] = $reboque;
+        $this->aProprietario = [];
+
         return $reboque;
     }
 
