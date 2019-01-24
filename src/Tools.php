@@ -424,10 +424,10 @@ class Tools extends BaseTools
         $lastMsg = $this->oSoap->lastMsg;
         $this->soapDebug = $this->oSoap->soapDebug;
         //salva mensagens
-        //$filename = "$idLote-enviMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = "$idLote-retEnviMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $filename = "$idLote-enviMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = "$idLote-retEnviMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $aRetorno = Response::readReturnSefaz($servico, $retorno);
         return (string) $retorno;
@@ -488,10 +488,10 @@ class Tools extends BaseTools
         $lastMsg = $this->oSoap->lastMsg;
         $this->soapDebug = $this->oSoap->soapDebug;
         //salva mensagens
-        //$filename = "$recibo-consReciMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = "$recibo-retConsReciMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $filename = "$recibo-consReciMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = "$recibo-retConsReciMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $aRetorno = Response::readReturnSefaz($servico, $retorno);
         return (string) $retorno;
@@ -556,10 +556,10 @@ class Tools extends BaseTools
         $lastMsg = $this->oSoap->lastMsg;
         $this->soapDebug = $this->oSoap->soapDebug;
         //salva mensagens
-        //$filename = "$chMDFe-consSitMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = "$chMDFe-retConsSitMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $filename = "$chMDFe-consSitMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = "$chMDFe-retConsSitMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $aRetorno = Response::readReturnSefaz($servico, $retorno);
 
@@ -620,10 +620,10 @@ class Tools extends BaseTools
         $lastMsg = $this->oSoap->lastMsg;
         $this->soapDebug = $this->oSoap->soapDebug;
         $datahora = date('Ymd_His');
-        //$filename = $siglaUF."_"."$datahora-consStatServ.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = $siglaUF."_"."$datahora-retConsStatServ.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $filename = $siglaUF."_"."$datahora-consStatServ.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = $siglaUF."_"."$datahora-retConsStatServ.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $aRetorno = Response::readReturnSefaz($servico, $retorno);
         return (string) $retorno;
@@ -830,10 +830,10 @@ class Tools extends BaseTools
         $lastMsg = $this->oSoap->lastMsg;
         $this->soapDebug = $this->oSoap->soapDebug;
         $datahora = date('Ymd_His');
-        //$filename = $siglaUF."_"."$datahora-consNaoEnc.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = $siglaUF."_"."$datahora-retConsNaoEnc.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $filename = $siglaUF."_"."$datahora-consNaoEnc.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = $siglaUF."_"."$datahora-retConsNaoEnc.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $aRetorno = Response::readReturnSefaz($servico, $retorno);
         return (string) $retorno;
@@ -925,9 +925,9 @@ class Tools extends BaseTools
         $this->soapDebug = $this->oSoap->soapDebug;
         //salva mensagens
         $filename = "$chave-$aliasEvento-eventoMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
-        //$filename = "$chave-$aliasEvento-retEventoMDFe.xml";
-        //$this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $lastMsg);
+        $filename = "$chave-$aliasEvento-retEventoMDFe.xml";
+        $this->zGravaFile('mdfe', $tpAmb, $filename, $retorno);
         //tratar dados de retorno
         $this->aLastRetEvent = Response::readReturnSefaz($servico, $retorno);
         return (string) $retorno;
