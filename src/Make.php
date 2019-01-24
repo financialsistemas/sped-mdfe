@@ -1675,7 +1675,7 @@ class Make extends BaseMake
             $node,
             "RENAVAM",
             $RENAVAM,
-            true,
+            false,
             "RENAVAM do veículo"
         );
         $this->dom->addChild(
