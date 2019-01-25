@@ -1748,8 +1748,24 @@ class Make extends BaseMake
      */
     protected function zTagIde()
     {
-        $this->dom->addArrayChild($this->ide, $this->aInfMunCarrega);
-        $this->dom->addArrayChild($this->ide, $this->aInfPercurso);
+        $dhIniViagem = $this->ide->getElementsByTagName('dhIniViagem')->item(0);
+
+        if (!empty($dhIniViagem)) {
+            $num = 0;
+            foreach ($this->aInfMunCarrega as $node) {
+                $this->dom->appChildBefore($this->ide, $node, 'dhIniViagem');
+                $num++;
+            }
+
+            $num = 0;
+            foreach ($this->aInfPercurso as $node) {
+                $this->dom->appChildBefore($this->ide, $node, 'dhIniViagem');
+                $num++;
+            }
+        } else {
+            $this->dom->addArrayChild($this->ide, $this->aInfMunCarrega);
+            $this->dom->addArrayChild($this->ide, $this->aInfPercurso);
+        }
     }
 
     /**
