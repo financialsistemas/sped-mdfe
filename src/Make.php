@@ -1483,14 +1483,14 @@ class Make extends BaseMake
             $prop,
             "CPF",
             $CPF,
-            true,
+            false,
             "CPF do proprietário"
         );
         $this->dom->addChild(
             $prop,
             "CNPJ",
             $CNPJ,
-            true,
+            false,
             "CNPJ do proprietário"
         );
         $this->dom->addChild(
@@ -1690,6 +1690,10 @@ class Make extends BaseMake
             false,
             "Capacidade em M3"
         );
+        $this->dom->addArrayChild(
+            $node,
+            $proprietarios
+        );
         if (!empty($condutores)) {
             $this->dom->addArrayChild(
                 $node,
@@ -1716,10 +1720,6 @@ class Make extends BaseMake
             $UF,
             true,
             "UF de licenciamento do veículo"
-        );
-        $this->dom->addArrayChild(
-            $node,
-            $proprietarios
         );
         return $node;
     }
