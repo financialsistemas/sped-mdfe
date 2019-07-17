@@ -246,6 +246,8 @@ class Make extends BaseMake
      * @param string $UFIni
      * @param string $UFFim
      * @param string $dhIniViagem
+     * @param string $indCanalVerde
+     * @param string $indCarregaPosterior
      * @return DOMElement|string
      */
     public function tagide(
@@ -265,7 +267,9 @@ class Make extends BaseMake
         $verProc = '',
         $UFIni = '',
         $UFFim = '',
-        $dhIniViagem = ''
+        $dhIniViagem = '',
+        $indCanalVerde = '',
+        $indCarregaPosterior = ''
     ) {
         $this->tpAmb = $tpAmb;
         if ($dhEmi == '') {
@@ -391,6 +395,20 @@ class Make extends BaseMake
             $dhIniViagem,
             false,
             $identificador . "Data e hora previstos de inicio da viagem"
+        );
+        $this->dom->addChild(
+            $ide,
+            "indCanalVerde",
+            $indCanalVerde,
+            false,
+            $identificador . "Indicador de participação do Canal Verde"
+        );
+        $this->dom->addChild(
+            $ide,
+            "indCarregaPosterior",
+            $indCarregaPosterior,
+            false,
+            $identificador . "Indicador de MDF-e com inclusão da Carga posterior a emissão por evento de inclusão de DF-e"
         );
         $this->mod = $mod;
         $this->ide = $ide;
