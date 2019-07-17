@@ -187,14 +187,14 @@ class Make extends BaseMake
         $this->dom->appChild($this->infMDFe, $this->infAdic, 'Falta tag "infMDFe"');
         //tag infRespTec [78]
         $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
-        //tag infMDFeSupl [78]
-        $this->dom->appChild($this->infMDFe, $this->infMDFeSupl, 'Falta tag "infMDFe"');
         // tag autXML [137]
         foreach ($this->aAutXML as $aut) {
             $this->dom->appChild($this->infMDFe, $aut, 'Falta tag "infMDFe"');
         }
         //[1] tag infMDFe (1 A01)
         $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
+        //[1] tag infMDFeSupl (1 A01)
+        $this->dom->appChild($this->MDFe, $this->infMDFeSupl, 'Falta tag "MDFe"');
         //[0] tag MDFe
         $this->dom->appChild($this->dom, $this->MDFe, 'Falta DOMDocument');
         // testa da chave
