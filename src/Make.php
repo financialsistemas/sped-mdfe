@@ -79,6 +79,10 @@ class Make extends BaseMake
     /**
      * @var DOMElement
      */
+    private $infRespTec;
+    /**
+     * @var DOMElement
+     */
     private $rodo;
     /**
      * @var DOMElement
@@ -177,6 +181,8 @@ class Make extends BaseMake
         $this->zTagLacres();
         //tag infAdic [78]
         $this->dom->appChild($this->infMDFe, $this->infAdic, 'Falta tag "infMDFe"');
+        //tag infAdic [78]
+        $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
         // tag autXML [137]
         foreach ($this->aAutXML as $aut) {
             $this->dom->appChild($this->infMDFe, $aut, 'Falta tag "infMDFe"');
@@ -839,6 +845,70 @@ class Make extends BaseMake
         );
         $this->infAdic = $infAdic;
         return $this->infAdic;
+    }
+
+    /**
+     * taginfRespTec
+     * Grupo de Informações Adicionais 140 pai 0
+     * tag MDFe/infMDFe/infRespTec (opcional)
+     *
+     * @param string $infAdFisco
+     * @param string $infCpl
+     * @return DOMElement
+     */
+    public function taginfRespTec(
+        $CNPJ,
+        $xContato,
+        $email,
+        $fone,
+        $idCSRT = '',
+        $hashCSRT = ''
+    ) {
+        $infRespTec = $this->dom->createElement("infRespTec");
+        $this->dom->addChild(
+            $infRespTec,
+            "CNPJ",
+            $CNPJ,
+            true,
+            "CNPJ da pessoa jurídica responsável técnica pelo sistema utilizado na emissão do documento fiscal eletrônico"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "xContato",
+            $xContato,
+            true,
+            "Nome da pessoa a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "email",
+            $email,
+            true,
+            "E-mail da pessoa jurídica a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "fone",
+            $fone,
+            true,
+            "Telefone da pessoa jurídica a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "idCSRT",
+            $idCSRT,
+            false,
+            "Identificador do código de segurança do responsável técnico"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "hashCSRT",
+            $hashCSRT,
+            false,
+            "Hash do token do código de segurança do responsável técnico "
+        );
+        $this->infRespTec = $infRespTec;
+        return $this->infRespTec    ;
     }
 
     /**
