@@ -79,6 +79,14 @@ class Make extends BaseMake
     /**
      * @var DOMElement
      */
+    private $infRespTec;
+    /**
+     * @var DOMElement
+     */
+    private $infMDFeSupl;
+    /**
+     * @var DOMElement
+     */
     private $rodo;
     /**
      * @var DOMElement
@@ -177,12 +185,16 @@ class Make extends BaseMake
         $this->zTagLacres();
         //tag infAdic [78]
         $this->dom->appChild($this->infMDFe, $this->infAdic, 'Falta tag "infMDFe"');
+        //tag infRespTec [78]
+        $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
         // tag autXML [137]
         foreach ($this->aAutXML as $aut) {
             $this->dom->appChild($this->infMDFe, $aut, 'Falta tag "infMDFe"');
         }
         //[1] tag infMDFe (1 A01)
         $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
+        //[1] tag infMDFeSupl (1 A01)
+        $this->dom->appChild($this->MDFe, $this->infMDFeSupl, 'Falta tag "MDFe"');
         //[0] tag MDFe
         $this->dom->appChild($this->dom, $this->MDFe, 'Falta DOMDocument');
         // testa da chave
@@ -839,6 +851,102 @@ class Make extends BaseMake
         );
         $this->infAdic = $infAdic;
         return $this->infAdic;
+    }
+
+    /**
+     * taginfRespTec
+     * Grupo de Informações Adicionais 140 pai 0
+     * tag MDFe/infMDFe/infRespTec (opcional)
+     *
+     * @param string $CNPJ
+     * @param string $xContato
+     * @param string $email
+     * @param string $fone
+     * @param string $idCSRT
+     * @param string $hashCSRT
+     * @return DOMElement
+     */
+    public function taginfRespTec(
+        $CNPJ,
+        $xContato,
+        $email,
+        $fone,
+        $idCSRT = '',
+        $hashCSRT = ''
+    ) {
+        $infRespTec = $this->dom->createElement("infRespTec");
+        $this->dom->addChild(
+            $infRespTec,
+            "CNPJ",
+            $CNPJ,
+            true,
+            "CNPJ da pessoa jurídica responsável técnica pelo sistema utilizado na emissão do documento fiscal eletrônico"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "xContato",
+            $xContato,
+            true,
+            "Nome da pessoa a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "email",
+            $email,
+            true,
+            "E-mail da pessoa jurídica a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "fone",
+            $fone,
+            true,
+            "Telefone da pessoa jurídica a ser contatada"
+        );
+
+        if (!empty($idCSRT) && !empty($hashCSRT)) {
+            $this->csrt = $std->CSRT;
+            $this->dom->addChild(
+                $infRespTec,
+                'idCSRT',
+                $idCSRT,
+                true,
+                "Identificador do CSRT utilizado para montar o hash do CSRT"
+            );
+            $this->dom->addChild(
+                $infRespTec,
+                "hashCSRT",
+                $hashCSRT,
+                true,
+                "hash do CSRT"
+            );
+        }
+
+        $this->infRespTec = $infRespTec;
+        return $this->infRespTec;
+    }
+
+    /**
+     * infMDFeSupl
+     * Grupo de Informações Adicionais 140 pai 0
+     * tag MDFe/infMDFe/infMDFeSupl (opcional)
+     *
+     * @param string $qrCodMDFe
+     * @return DOMElement
+     */
+    public function taginfMDFeSupl($qrCodMDFe) 
+    {
+        $infMDFeSupl = $this->dom->createElement("infMDFeSupl");
+        $this->dom->addChild(
+            $infMDFeSupl,
+            "qrCodMDFe",
+            $qrCodMDFe,
+            true,
+            "Texto com o QR-Code para consulta do MDF-e"
+        );
+
+        $this->infMDFeSupl = $infMDFeSupl;
+        return $this->infMDFeSupl;
     }
 
     /**
