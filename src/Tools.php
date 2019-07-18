@@ -780,6 +780,72 @@ class Tools extends BaseTools
     }
 
     /**
+     * sefazIncluiDFe
+     *
+     * @param  string $chave
+     * @param  string $protocolo
+     * @param  string $tpAmb
+     * @param  string $nSeqEvento
+     * @param  string $cMunCarrega
+     * @param  string $xMunCarrega
+     * @param  array  $infDocs
+     * @param  array  $aRetorno
+     * @return string
+     * @throws Exception\InvalidArgumentException
+     */
+    public function sefazIncluiDFe(
+        $chave = '',
+        $protocolo = '',
+        $tpAmb = '2',
+        $nSeqEvento = '1',
+        $cMunCarrega = '',
+        $xMunCarrega = '',
+        $infDocs = array(),
+        &$aRetorno = array()
+    ) {
+        if ($tpAmb == '') {
+            $tpAmb = $this->aConfig['tpAmb'];
+        }
+        $chMDFe = preg_replace('/[^0-9]/', '', $chave);
+        if (strlen($chMDFe) != 44) {
+            $msg = "Uma chave de MDFe válida não foi passada como parâmetro $chMDFe.";
+            throw new Exception\InvalidArgumentException($msg);
+        }
+        $siglaUF = self::zGetSigla(substr($chMDFe, 0, 2));
+        //estabelece o codigo do tipo de evento Inclusão de condutor
+        $tpEvento = '110115';
+        if ($nSeqEvento == '') {
+            $nSeqEvento = '1';
+        }
+
+        $tagInfDocs = '';
+        foreach ($infDocs as $doc) {
+            $cMunDescarga = $doc['cMunDescarga'] ?? '';
+            $xMunDescarga = $doc['xMunDescarga'] ?? '';
+            $chNFe        = $doc['chNFe'] ?? '';
+
+            $tagInfDocs .= '<infDoc>'
+                . "<cMunDescarga>$cMunDescarga</cMunDescarga>"
+                . "<xMunDescarga>$xMunDescarga</xMunDescarga>"
+                . "<chNFe>$chNFe</chNFe>"
+                . '</infDoc>';
+        }
+
+        //monta mensagem
+        $tagAdic = "<evIncDFeMDFe><descEvento>Inclusao DF-e</descEvento>"
+            . "<nProt>$protocolo</nProt>"
+            . "<cMunCarrega>$cMunCarrega</cMunCarrega>"
+            . "<xMunCarrega>$xMunCarrega</xMunCarrega>"
+            . "$tagInfDocs</evIncDFeMDFe>";
+
+        $cOrgao = '';
+
+        $retorno = $this->zSefazEvento($siglaUF, $chMDFe, $cOrgao, $tpAmb, $tpEvento, $nSeqEvento, $tagAdic);
+        $aRetorno = $this->aLastRetEvent;
+        return $retorno;
+    }
+
+    /**
      * sefazConsultaNaoEncerrados
      *
      * @param  string $tpAmb
@@ -958,6 +1024,11 @@ class Tools extends BaseTools
                 //inclusao do condutor
                 $aliasEvento = 'EvIncCondut';
                 $descEvento = 'Inclusao Condutor';
+                break;
+            case '110115':
+                //inclusao de DFe 
+                $aliasEvento = 'EvIncDFe';
+                $descEvento = 'Inclusao DF-e';
                 break;
             default:
                 $msg = "O código do tipo de evento informado não corresponde a "
