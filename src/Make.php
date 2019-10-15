@@ -103,6 +103,10 @@ class Make
     /**
      * @type string|\DOMNode
      */
+    private $infRespTec;
+    /**
+     * @type string|\DOMNode
+     */
     private $rodo = '';
     /**
      * @type string|\DOMNode
@@ -277,6 +281,9 @@ class Make
         }
         if (! empty($this->infAdic)) {
             $this->dom->appChild($this->infMDFe, $this->infAdic, 'Falta tag "infMDFe"');
+        }
+        if (! empty($this->infRespTec)) {
+            $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
         }
         $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
         
@@ -1413,6 +1420,75 @@ class Make
         );
         $this->infAdic = $infAdic;
         return $infAdic;
+    }
+
+    /**
+     * taginfAdic
+     * Grupo de Informações do responsável técnico Z01 pai A01
+     * tag MDFe/infMDFe/infRespTec (opcional)
+     *
+     * @param  stdClass $std
+     * @return DOMElement
+     */
+    public function taginfRespTec(stdClass $std) 
+    {
+        $possible = [
+            'CNPJ',
+            'xContato',
+            'email',
+            'fone',
+            'idCSRT',
+            'hashCSRT',
+        ];
+        $std = $this->equilizeParameters($std, $possible);
+        $infRespTec = $this->dom->createElement("infRespTec");
+        $this->dom->addChild(
+            $infRespTec,
+            "CNPJ",
+            $std->CNPJ,
+            true,
+            "CNPJ da pessoa jurídica responsável técnica pelo sistema utilizado na emissão do documento fiscal eletrônico"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "xContato",
+            $std->xContato,
+            true,
+            "Nome da pessoa a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "email",
+            $std->email,
+            true,
+            "E-mail da pessoa jurídica a ser contatada"
+        );
+        $this->dom->addChild(
+            $infRespTec,
+            "fone",
+            $std->fone,
+            true,
+            "Telefone da pessoa jurídica a ser contatada"
+        );
+        if (!empty($std->idCSRT) && !empty($std->hashCSRT)) {
+            $this->csrt = $std->CSRT;
+            $this->dom->addChild(
+                $infRespTec,
+                'idCSRT',
+                $std->idCSRT,
+                true,
+                "Identificador do CSRT utilizado para montar o hash do CSRT"
+            );
+            $this->dom->addChild(
+                $infRespTec,
+                "hashCSRT",
+                $std->hashCSRT,
+                true,
+                "hash do CSRT"
+            );
+        }
+        $this->infRespTec = $infRespTec;
+        return $this->infRespTec;
     }
 
     /**
