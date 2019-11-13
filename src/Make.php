@@ -91,6 +91,10 @@ class Make
     /**
      * @type string|\DOMNode
      */
+    private $lacres = [];
+    /**
+     * @type string|\DOMNode
+     */
     private $seg = [];
     /**
      * @type string|\DOMNode
