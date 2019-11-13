@@ -244,6 +244,7 @@ class Tools extends ToolsCommon
             . "<CPF>$cpf</CPF>"
             . "</condutor>"
             . "</evIncCondutorMDFe>";
+
         return $this->sefazEvento(
             $this->config->siglaUF,
             $chave,
