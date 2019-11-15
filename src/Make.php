@@ -1516,18 +1516,32 @@ class Make
             'qCarga'
         ];
         $std = $this->equilizeParameters($std, $possible);
-        $std->qCTe = count($this->infCTe);
-        if ($std->qCTe == 0) {
+
+        $countCte = 0;
+        foreach ($this->infCTe as $ctes) {
+            $countCte += count($ctes);
+        }
+        $countNfe = 0;
+        foreach ($this->infNFe as $nfes) {
+            $countNfe += count($nfes);
+        }
+        $countMdfe = 0;
+        foreach ($this->infMDFeTransp as $mdfes) {
+            $countMdfe += count($mdfes);
+        }
+        $std->qCTe = $countCte;
+        if ($countCte == 0) {
             $std->qCTe = '';
         }
-        $std->qNFe = count($this->infNFe);
-        if ($std->qNFe == 0) {
+        $std->qNFe = $countNfe;
+        if ($countNfe == 0) {
             $std->qNFe = '';
         }
-        $std->qMDFe = count($this->infMDFeTransp);
-        if ($std->qMDFe == 0) {
+        $std->qMDFe = $countMdfe;
+        if ($countMdfe == 0) {
             $std->qMDFe = '';
         }
+
         $tot = $this->dom->createElement("tot");
         $this->dom->addChild(
             $tot,
