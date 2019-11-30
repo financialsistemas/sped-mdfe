@@ -18,15 +18,12 @@ namespace NFePHP\MDFe;
  * @author    Cleiton Perin <cperin20 at gmail dot com>
  */
 
-use NFePHP\Common\Keys;
-use NFePHP\Common\DOMImproved as Dom;
-use NFePHP\Common\Strings;
-use stdClass;
-use RuntimeException;
-use InvalidArgumentException;
 use DOMElement;
-use DateTime;
-use Exception;
+use NFePHP\Common\DOMImproved as Dom;
+use NFePHP\Common\Keys;
+use NFePHP\Common\Strings;
+use RuntimeException;
+use stdClass;
 
 class Make
 {
@@ -376,8 +373,10 @@ class Make
             $this->dom->addArrayChild($this->infMDFe, $this->seg, 'Falta tag "seg"');
         }
         $this->dom->appChild($this->infMDFe, $this->tot, 'Falta tag "tot"');
-        foreach ($this->lacres as $lacres) {
-            $this->dom->appChild($this->infMDFe, $lacres, 'Falta tag "lacres"');
+        if (!empty($this->lacres)) {
+            foreach ($this->lacres as $lacres) {
+                $this->dom->appChild($this->infMDFe, $lacres, 'Falta tag "lacres"');
+            }
         }
         foreach ($this->autXML as $autXML) {
             $this->dom->appChild($this->infMDFe, $autXML, 'Falta tag "infMDFe"');
@@ -1772,7 +1771,7 @@ class Make
          */
         if ($modal == '1') {
             $this->tagrodo();
-        } else if ($modal == '4') {
+        } elseif ($modal == '4') {
             $this->tagferrov();
         }
         return $infModal;
