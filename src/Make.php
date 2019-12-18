@@ -388,7 +388,7 @@ class Make
             $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
         }
         $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
-        
+
         $this->dom->appendChild($this->MDFe);
         // testa da chave
         $this->checkMDFKey($this->dom);
@@ -1510,37 +1510,41 @@ class Make
     public function tagtot(stdClass $std)
     {
         $possible = [
+            'qCTe',
+            'qNFe',
+            'qMDFe',
             'vCarga',
             'cUnid',
             'qCarga'
         ];
         $std = $this->equilizeParameters($std, $possible);
-
-        $countCte = 0;
-        foreach ($this->infCTe as $ctes) {
-            $countCte += count($ctes);
+        if (!isset($std->qCTe)) {
+            $std->qCTe = 0;
+            foreach ($this->infCTe as $infCTe) {
+                $std->qCTe += count($infCTe);
+            }
+            if ($std->qCTe == 0) {
+                $std->qCTe = '';
+            }
         }
-        $countNfe = 0;
-        foreach ($this->infNFe as $nfes) {
-            $countNfe += count($nfes);
+        if (!isset($std->qNFe)) {
+            $std->qNFe = 0;
+            foreach ($this->infNFe as $infNFe) {
+                $std->qNFe += count($infNFe);
+            }
+            if ($std->qNFe == 0) {
+                $std->qNFe = '';
+            }
         }
-        $countMdfe = 0;
-        foreach ($this->infMDFeTransp as $mdfes) {
-            $countMdfe += count($mdfes);
+        if (!isset($std->qMDFe)) {
+            $std->qMDFe = 0;
+            foreach ($this->infMDFeTransp as $infMDFeTransp) {
+                $std->qMDFe += count($infMDFeTransp);
+            }
+            if ($std->qMDFe == 0) {
+                $std->qMDFe = '';
+            }
         }
-        $std->qCTe = $countCte;
-        if ($countCte == 0) {
-            $std->qCTe = '';
-        }
-        $std->qNFe = $countNfe;
-        if ($countNfe == 0) {
-            $std->qNFe = '';
-        }
-        $std->qMDFe = $countMdfe;
-        if ($countMdfe == 0) {
-            $std->qMDFe = '';
-        }
-
         $tot = $this->dom->createElement("tot");
         $this->dom->addChild(
             $tot,
@@ -1655,7 +1659,7 @@ class Make
      * @param  stdClass $std
      * @return DOMElement
      */
-    public function taginfRespTec(stdClass $std) 
+    public function taginfRespTec(stdClass $std)
     {
         $possible = [
             'CNPJ',
