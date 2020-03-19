@@ -306,10 +306,10 @@ class Make
         $this->dom->appChild($this->infMDFe, $this->emit, 'Falta tag "emit"');
         if ($this->rodo) {
             if (empty($this->prodPred)) {
-                $this->errors[] = "Tag prodPred é obrigatória para modal rodoviário!";
+//                $this->errors[] = "Tag prodPred é obrigatória para modal rodoviário!";
             }
             if (empty($this->infLotacao) and (count($this->infCTe) + count($this->infNFe) + count($this->infMDFeTransp)) == 1) {
-                $this->errors[] = "Tag infLotacao é obrigatória quando só existir um Documento informado!";
+//                $this->errors[] = "Tag infLotacao é obrigatória quando só existir um Documento informado!";
             }
             if ($this->infANTT) {
                 if ($this->infCIOT) {
