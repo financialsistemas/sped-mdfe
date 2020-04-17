@@ -287,6 +287,19 @@ class Make
     }
 
     /**
+     * @param $indDoc
+     * @return int|void
+     */
+    private function contaDoc($indDoc)
+    {
+        $total = 0;
+        foreach ($indDoc as $doc) {
+            $total += count($doc);
+        }
+        return $total;
+    }
+
+    /**
      * MDFe xml mount method
      * this function returns TRUE on success or FALSE on error
      * The xml of the MDFe must be retrieved by the getXML() function or
@@ -305,11 +318,12 @@ class Make
         $this->dom->appChild($this->emit, $this->enderEmit, 'Falta tag "enderEmit"');
         $this->dom->appChild($this->infMDFe, $this->emit, 'Falta tag "emit"');
         if ($this->rodo) {
-            if (empty($this->prodPred)) {
-//                $this->errors[] = "Tag prodPred é obrigatória para modal rodoviário!";
+            $tpEmit = $this->ide->getElementsByTagName('tpEmit')->item(0)->nodeValue;
+            if (($tpEmit == 1 || $tpEmit == 3) && empty($this->prodPred)) {
+                // $this->errors[] = "Tag prodPred é obrigatória para modal rodoviário!";
             }
-            if (empty($this->infLotacao) and (count($this->infCTe) + count($this->infNFe) + count($this->infMDFeTransp)) == 1) {
-//                $this->errors[] = "Tag infLotacao é obrigatória quando só existir um Documento informado!";
+            if (($tpEmit == 1 || $tpEmit == 3) && empty($this->infLotacao) && ($this->contaDoc($this->infCTe) + $this->contaDoc($this->infNFe) + $this->contaDoc($this->infMDFeTransp)) == 1) {
+                // $this->errors[] = "Tag infLotacao é obrigatória quando só existir um Documento informado!";
             }
             if ($this->infANTT) {
                 if ($this->infCIOT) {
@@ -991,7 +1005,7 @@ class Make
                 true,
                 $identificador . "Número do CPF do contratante do serviço"
             );
-        } else if ($std->CNPJ) {
+        } elseif ($std->CNPJ) {
             $this->dom->addChild(
                 $infContratante,
                 "CNPJ",
@@ -2923,7 +2937,7 @@ class Make
                 true,
                 $identificador . "Número do CPF do responsável pelo pgto"
             );
-        } else if (!empty($std->CNPJ)) {
+        } elseif (!empty($std->CNPJ)) {
             $this->dom->addChild(
                 $infPag,
                 "CNPJ",
@@ -2941,7 +2955,7 @@ class Make
             );
         }
         foreach ($std->Comp as $value) {
-            $this->dom->appChild($infPag, $this->CompPag($value), 'Falta tag "Comp"');
+            $this->dom->appChild($infPag, $this->compPag($value), 'Falta tag "Comp"');
         }
         $this->dom->addChild(
             $infPag,
@@ -2972,7 +2986,7 @@ class Make
      * @param stdClass
      *
      */
-    private function CompPag(stdClass $std)
+    private function compPag(stdClass $std)
     {
         $possible = [
             'tpComp',
