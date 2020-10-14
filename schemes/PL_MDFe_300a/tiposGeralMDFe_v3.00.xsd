@@ -416,7 +416,7 @@
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:whiteSpace value="preserve"/>
-			<xs:pattern value="[0-9]{2,14}"/>
+			<xs:pattern value="[0-9]{2,14}|ISENTO"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TNF">
