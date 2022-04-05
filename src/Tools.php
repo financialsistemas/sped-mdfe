@@ -339,57 +339,6 @@ class Tools extends ToolsCommon
     }
 
     /**
-     * sefazIncluiDFe
-     *
-     * @param  string $chave
-     * @param  string $protocolo
-     * @param  string $nSeqEvento
-     * @param  string $cMunCarrega
-     * @param  string $xMunCarrega
-     * @param  array  $infDocs
-     * @return string
-     * @throws Exception\InvalidArgumentException
-     */
-    public function sefazIncluiDFe(
-        $chave = '',
-        $protocolo = '',
-        $nSeqEvento = '1',
-        $cMunCarrega = '',
-        $xMunCarrega = '',
-        $infDocs = array()
-    ) {
-        $chMDFe = preg_replace('/[^0-9]/', '', $chave);
-        if (strlen($chMDFe) != 44) {
-            $msg = "Uma chave de MDFe não válida foi passada como parâmetro $chMDFe.";
-            throw new \InvalidArgumentException($msg);
-        }
-        $siglaUF = $this->config->siglaUF;
-        //estabelece o codigo do tipo de evento Inclusão de DFe
-        $tpEvento = '110115';
-        if ($nSeqEvento == '') {
-            $nSeqEvento = '1';
-        }
-        $tagInfDocs = '';
-        foreach ($infDocs as $doc) {
-            $cMunDescarga = $doc['cMunDescarga'] ?? '';
-            $xMunDescarga = $doc['xMunDescarga'] ?? '';
-            $chNFe        = $doc['chNFe'] ?? '';
-            $tagInfDocs .= '<infDoc>'
-                . "<cMunDescarga>$cMunDescarga</cMunDescarga>"
-                . "<xMunDescarga>$xMunDescarga</xMunDescarga>"
-                . "<chNFe>$chNFe</chNFe>"
-                . '</infDoc>';
-        }
-        //monta mensagem
-        $tagAdic = "<evIncDFeMDFe><descEvento>Inclusao DF-e</descEvento>"
-            . "<nProt>$protocolo</nProt>"
-            . "<cMunCarrega>$cMunCarrega</cMunCarrega>"
-            . "<xMunCarrega>$xMunCarrega</xMunCarrega>"
-            . "$tagInfDocs</evIncDFeMDFe>";
-        return $this->sefazEvento($siglaUF, $chMDFe, $tpEvento, $nSeqEvento, $tagAdic);
-    }
-
-    /**
      * @author Cleiton Perin
      *
      * @param string $uf
