@@ -89,10 +89,6 @@ class Make
     /**
      * @type string|\DOMNode
      */
-    private $lacres = [];
-    /**
-     * @type string|\DOMNode
-     */
     private $seg = [];
     /**
      * @type string|\DOMNode
@@ -151,6 +147,10 @@ class Make
      */
     private $infPercurso = [];
     /**
+     * @type string
+     */
+    private $codAgPorto = '';
+    /**
      * @type string|\DOMNode
      */
     private $lacRodo = [];
@@ -162,6 +162,10 @@ class Make
      * @type string|\DOMNode
      */
     private $infAdic = '';
+    /**
+     * @type string|\DOMNode
+     */
+    private $infRespTec = '';
     /**
      * @type string|\DOMNode
      */
@@ -226,6 +230,26 @@ class Make
      * @var null
      */
     private $categCombVeic = null;
+    /**
+     * @type \DOMImproved
+     */
+    protected $dom;
+    /**
+     * @type false|string
+     */
+    protected $xml;
+    /**
+     * @type array
+     */
+    protected $lacres;
+    /**
+     * @type string
+     */
+    protected $tpAmb;
+    /**
+    * @type string
+    */
+    protected $csrt;
 
     /**
      * Função construtora cria um objeto DOMDocument
@@ -373,6 +397,15 @@ class Make
             if ($this->veicReboque) {
                 $this->dom->addArrayChild($this->rodo, $this->veicReboque, 'Falta tag "veicReboque"');
             }
+            if ($this->codAgPorto) {
+                $this->dom->addChild(
+                    $this->rodo,
+                    "codAgPorto",
+                    $this->codAgPorto,
+                    false,
+                    "Código de Agendamento no porto"
+                );
+            }
             if ($this->lacRodo) {
                 $this->dom->addArrayChild($this->rodo, $this->lacRodo, 'Falta tag "lacRodo"');
             }
@@ -453,10 +486,9 @@ class Make
             $this->dom->appChild($this->infMDFe, $this->infAdic, 'Falta tag "infAdic"');
         }
         if (!empty($this->infRespTec)) {
-            $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infMDFe"');
+            $this->dom->appChild($this->infMDFe, $this->infRespTec, 'Falta tag "infRespTec"');
         }
-        $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
-
+        $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "infMDFe"');
         $this->dom->appendChild($this->MDFe);
         // testa da chave
         $this->checkMDFKey($this->dom);
@@ -2709,14 +2741,15 @@ class Make
                 $prop,
                 "IE",
                 $stdprop->IE,
-                false,
-                $identificadorProp . "Inscrição Estadual"
+                true,
+                $identificadorProp . "Inscrição Estadual",
+                true
             );
             $this->dom->addChild(
                 $prop,
                 "UF",
                 $stdprop->UF,
-                false,
+                true,
                 $identificadorProp . "Unidade da Federação"
             );
             $this->dom->addChild(
@@ -2875,14 +2908,15 @@ class Make
                 $prop,
                 "IE",
                 $stdprop->IE,
-                false,
-                $identificadorprop . "Inscrição Estadual"
+                true,
+                $identificadorprop . "Inscrição Estadual",
+                true
             );
             $this->dom->addChild(
                 $prop,
                 "UF",
                 $stdprop->UF,
-                false,
+                true,
                 $identificadorprop . "Unidade da Federação"
             );
             $this->dom->addChild(
@@ -2916,23 +2950,13 @@ class Make
      * tagcodAgPorto
      * tag MDFe/infMDFe/infModal/rodo/codAgPorto
      *
-     * @param stdClass $std
-     * @return DOMElement
+     * @param string codAgPorto
+     * @return null
      */
-    public function tagcodAgPorto(stdClass $std)
+    public function tagcodAgPorto($codAgPorto)
     {
-        $possible = [
-            'codAgPorto'
-        ];
-        $std = $this->equilizeParameters($std, $possible);
-        $this->dom->addChild(
-            $this->rodo,
-            "codAgPorto",
-            $std->codAgPorto,
-            false,
-            "Código de Agendamento no porto"
-        );
-        return $this->rodo;
+        $this->codAgPorto = $codAgPorto;
+        return null;
     }
 
     /**
@@ -2961,7 +2985,6 @@ class Make
     }
 
     /**
-
      * Informações do Responsável técnico ZD01 pai A01
      * tag NFe/infNFe/infRespTec (opcional)
      * @param stdClass $std
