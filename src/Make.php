@@ -1136,7 +1136,7 @@ class Make
             $infCIOT,
             "CIOT",
             $std->CIOT,
-            true,
+            false,
             $identificador . "Código Identificador da Operação de Transporte"
         );
         if ($std->CPF) {
@@ -1212,7 +1212,9 @@ class Make
             'infEntregaParcial',
             'infUnidTransp',
             'peri',
-            'nItem'
+            'nItem',
+            'indPrestacaoParcial',
+            'infNFePrestParcial'
         ];
         $std = $this->equilizeParameters($std, $possible);
         $infCTe = $this->dom->createElement("infCTe");
@@ -1283,6 +1285,29 @@ class Make
             );
             $this->dom->appChild($infCTe, $infEntregaParcial, 'Falta tag "infCTe"');
         }
+
+        if ($std->indPrestacaoParcial != null) {
+            $identificadorparcial = '[4] <indPrestacaoParcial> - ';
+            $this->dom->addChild(
+                $infCTe,
+                "indPrestacaoParcial",
+                '1',
+                true,
+                $identificadorparcial . "Indicador de Prestação parcial"
+            );
+            $infNFePrestParcial = $this->dom->createElement("infNFePrestParcial");
+            foreach ($std->infNFePrestParcial as $nfe) {
+                $this->dom->addChild(
+                    $infNFePrestParcial,
+                    "chNFe",
+                    $nfe->chave,
+                    true,
+                    $identificadorparcial . "Nota Fiscal Eletrônica"
+                );
+            }
+            $this->dom->appChild($infCTe, $infNFePrestParcial, 'Falta tag "infCTe"');
+        }
+
         $this->infCTe[$std->nItem][] = $infCTe;
         return $infCTe;
     }
@@ -2312,7 +2337,8 @@ class Make
             'infTermDescarreg',
             'infEmbComb',
             'infUnidCargaVazia',
-            'infUnidTranspVazia'
+            'infUnidTranspVazia',
+            'MMSI'
         ];
         $identificador = '[1] <aquav> - ';
         $std = $this->equilizeParameters($std, $possible);
@@ -2425,6 +2451,13 @@ class Make
                 );
             }
         }
+        $this->dom->addChild(
+            $aquav,
+            "MMSI",
+            $std->MMSI,
+            false,
+            $identificador . "Maritime Mobile Service Identify"
+        );
         $this->aquav = $aquav;
         return $aquav;
     }
@@ -3077,6 +3110,7 @@ class Make
             'vAdiant',
             'indAntecipaAdiant',
             'infPrazo',
+            'tpAntecip',
             'infBanc'
         ];
         $std = $this->equilizeParameters($std, $possible);
@@ -3121,7 +3155,7 @@ class Make
         $this->dom->addChild(
             $infPag,
             "vContrato",
-            $std->vContrato,
+            $this->conditionalNumberFormatting($std->vContrato),
             true,
             $identificador . "Valor total do contrato"
         );
@@ -3160,6 +3194,13 @@ class Make
                 $this->dom->appChild($infPag, $this->infPrazo($value), 'Falta tag "infPrazo"');
             }
         }
+        $this->dom->addChild(
+            $infPag,
+            "tpAntecip",
+            $std->tpAntecip,
+            false,
+            $identificador . "Tipo de Permissão em relação a antecipação das parcelas"
+        );
         $this->dom->appChild($infPag, $this->infBanc($std->infBanc), 'Falta tag "infBanc"');
         $this->infPag[] = $infPag;
         return $infPag;
@@ -3190,7 +3231,7 @@ class Make
         $this->dom->addChild(
             $comp,
             "vComp",
-            $stdComp->vComp,
+            $this->conditionalNumberFormatting($stdComp->vComp),
             true,
             $identificador . "Valor do Componente"
         );
@@ -3214,7 +3255,6 @@ class Make
             'nParcela',
             'dVenc',
             'vParcela',
-            'tpAntecip'
         ];
         $stdPraz = $this->equilizeParameters($std, $possible);
         $prazo = $this->dom->createElement("infPrazo");
@@ -3239,13 +3279,6 @@ class Make
             $this->conditionalNumberFormatting($stdPraz->vParcela),
             true,
             $identificador . "Valor da Parcela"
-        );
-        $this->dom->addChild(
-            $prazo,
-            "tpAntecip",
-            $stdPraz->tpAntecip,
-            false,
-            $identificador . "Tipo de Permissão em relação a antecipação das parcelas"
         );
         return $prazo;
     }
