@@ -1446,6 +1446,8 @@ class Make
         $possible = [
             'chMDFe',
             'indReentrega',
+            'infUnidTransp',
+            'peri',
             'nItem'
         ];
         $std = $this->equilizeParameters($std, $possible);
