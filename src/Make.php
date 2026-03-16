@@ -1446,6 +1446,8 @@ class Make
         $possible = [
             'chMDFe',
             'indReentrega',
+            'infUnidTransp',
+            'peri',
             'nItem'
         ];
         $std = $this->equilizeParameters($std, $possible);
@@ -2491,6 +2493,7 @@ class Make
             true,
             $identificador . "Tipo da unidade de transporte vazia"
         );
+        $this->infUnidTranspVazia[] = $infUnidTranspVazia;
         return $infUnidTranspVazia;
     }
 
@@ -2523,6 +2526,7 @@ class Make
             true,
             $identificador . "Tipo da unidade de carga vazia"
         );
+        $this->infUnidCargaVazia[] = $infUnidCargaVazia;
         return $infUnidCargaVazia;
     }
 
@@ -2555,6 +2559,7 @@ class Make
             true,
             $identificador . "Nome do Terminal de Descarregamento"
         );
+        $this->infTermDescarreg[] = $infTermDescarreg;
         return $infTermDescarreg;
     }
 
@@ -2588,6 +2593,7 @@ class Make
             true,
             $identificador . "Nome do Terminal de Carregamento"
         );
+        $this->infTermCarreg[] = $infTermCarreg;
         return $infTermCarreg;
     }
 
@@ -2622,6 +2628,7 @@ class Make
             true,
             $identificador . "Identificador da Balsa"
         );
+        $this->infEmbComb[] = $infEmbComb;
         return $infEmbComb;
     }
 
