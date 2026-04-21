@@ -320,7 +320,7 @@ class Tools
      * @return string singed MDFe xml
      * @throws RuntimeException
      */
-    public function signMDFe($xml)
+    public function signMDFe($xml, $validXSD = 1)
     {
         //remove all invalid strings
         $xml = Strings::clearXmlString($xml);
@@ -347,21 +347,23 @@ class Tools
 
         $modal = (int) $dom->getElementsByTagName('modal')->item(0)->nodeValue;
         //validate
-        $this->isValid($this->versao, $signed, $method);
-        //validate modal
-        switch ($modal) {
-            case 1:
-                $this->isValid($this->versao, $this->getModalXML($dom, 'rodo'), $method . 'ModalRodoviario');
-                break;
-            case 2:
-                $this->isValid($this->versao, $this->getModalXML($dom, 'aereo'), $method . 'ModalAereo');
-                break;
-            case 3:
-                $this->isValid($this->versao, $this->getModalXML($dom, 'aquav'), $method . 'ModalAquaviario');
-                break;
-            case 4:
-                $this->isValid($this->versao, $this->getModalXML($dom, 'ferrov'), $method . 'ModalFerroviario');
-                break;
+        if($validXSD == 1){
+            $this->isValid($this->versao, $signed, $method);
+            //validate modal
+            switch ($modal) {
+                case 1:
+                    $this->isValid($this->versao, $this->getModalXML($dom, 'rodo'), $method . 'ModalRodoviario');
+                    break;
+                case 2:
+                    $this->isValid($this->versao, $this->getModalXML($dom, 'aereo'), $method . 'ModalAereo');
+                    break;
+                case 3:
+                    $this->isValid($this->versao, $this->getModalXML($dom, 'aquav'), $method . 'ModalAquaviario');
+                    break;
+                case 4:
+                    $this->isValid($this->versao, $this->getModalXML($dom, 'ferrov'), $method . 'ModalFerroviario');
+                    break;
+            }
         }
         return $signed;
     }
