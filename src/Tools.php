@@ -103,7 +103,7 @@ class Tools extends ToolsCommon
 
     /**
      * @author Cleiton Perin
-     * Consulta o status da MDFe pela chave de 44 digitos
+     * Consulta o status da MDFe pela chave de 44 caracteres
      *
      * @param string $chave
      * @param string $tpAmb

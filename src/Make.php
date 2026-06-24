@@ -276,7 +276,7 @@ class Make
     }
 
     /**
-     * Retorns the key number of NFe (44 digits)
+     * Returns the key number of NFe (44 characters)
      *
      * @return string
      */
@@ -3359,7 +3359,7 @@ class Make
 
     /**
      * checkMDFKey
-     * Remonta a chave do MDFe de 44 digitos com base em seus dados
+     * Remonta a chave do MDFe de 44 caracteres com base em seus dados
      * Isso é útil no caso da chave informada estar errada
      * se a chave estiver errada a mesma é substituida
      *
@@ -3382,7 +3382,7 @@ class Make
         $nMDF = $ide->getElementsByTagName('nMDF')->item(0)->nodeValue;
         $tpEmis = $ide->getElementsByTagName('tpEmis')->item(0)->nodeValue;
         $cNF = $ide->getElementsByTagName('cMDF')->item(0)->nodeValue;
-        $chave = str_replace('MDFe', '', $infMDFe->getAttribute("Id"));
+        $chave = Keys::extractAccessKey($infMDFe->getAttribute("Id"));
         $dt = new \DateTime($dhEmi);
         $chaveMontada = Keys::build(
             $cUF,
